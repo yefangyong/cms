@@ -17,6 +17,8 @@
         private $gold;
         private $color;
         private $id;
+        private $sort;
+        private $readlimit;
         private $limit;
 
         //拦截器(__set)
@@ -51,11 +53,20 @@
                            author,
                            content,
                            date,
+                           attr,
+                           sort,
+                           readlimit,
+                           color,
+                           commend,
                            source,
                            title,
                            count,
                            id,
-                           nav
+                           nav,
+                           thumbnail,
+                           tag,
+                           keyword,
+                           gold
                        FROM
                            cms_content
                        WHERE
@@ -110,6 +121,8 @@
                                     attr,
                                     count,
                                     content,
+                                    sort,
+                                    readlimit,
                                     date
                                               )
                         VALUES(
@@ -127,6 +140,8 @@
                                '$this->attr',
                                '$this->count',
                                '$this->content',
+                               '$this->sort',
+                               '$this->readlimit',
                                NOW()
                                                ) ";
             return parent::aud($sql);

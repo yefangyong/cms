@@ -77,6 +77,8 @@ class ContentAction extends Action {
             $this->_model->count = $_POST['count'];
             $this->_model->gold = $_POST['gold'];
             $this->_model->color = $_POST['color'];
+            $this->_model->sort = $_POST['sort'];
+            $this->_model->readlimit = $_POST['readlimit'];
             $this->_model->addContent()?Tool::alertLocation('文档发布成功！','?action=add'):Tool::alertBack('新增失败!');
 
         }
@@ -90,18 +92,111 @@ class ContentAction extends Action {
 
     }
 
-    private function update() {
+    //commend
+    private function commend($_commend) {
+        $_commendArr = array(1=>'允许评论',0=>'禁止评论');
+        foreach ($_commendArr as $_key=>$_value) {
+            if ($_key == $_commend) $_checked='checked="checked"';
+            $_html .= '<input type="radio" '.$_checked.' name="commend" value="'.$_key.'" />'.$_value;
 
+        }
+        $this->_tpl->assign('commend',$_html);
     }
 
-    private function nav() {
+    //sort
+    private function sort($_sort) {
+        $_sortArr = array(0=>'默认排序',1=>'置顶一天',2=>'置顶一周',3=>'置顶一月',4=>'置顶一年');
+        foreach ($_sortArr as $_key=>$_value) {
+            if ($_key == $_sort) $_selected='selected="selected"';
+            $_html .= '<option '.$_selected.' value="'.$_key.'" style="color:'.$_key.';">'.$_value.'</option>';
+            $_selected = '';
+        }
+        $this->_tpl->assign('sort',$_html);
+    }
+
+    //readlimit
+    private function readlimit($_readlimit) {
+        $_readlimitArr = array(0=>'开放浏览',1=>'初级会员',2=>'中级会员',3=>'高级会员',4=>'VIP会员');
+        foreach ($_readlimitArr as $_key=>$_value) {
+            if ($_key == $_readlimit) $_selected='selected="selected"';
+            $_html .= '<option '.$_selected.' value="'.$_key.'" style="color:'.$_key.';">'.$_value.'</option>';
+            $_selected = '';
+        }
+        $this->_tpl->assign('readlimit',$_html);
+    }
+
+    //color
+    private function color($_color) {
+        $_colorArr = array(''=>'默认颜色','red'=>'红色','blue'=>'蓝色','orange'=>'橙色');
+        foreach ($_colorArr as $_key=>$_value) {
+            if ($_key == $_color) $_selected='selected="selected"';
+            $_html .= '<option '.$_selected.' value="'.$_key.'" style="color:'.$_key.';">'.$_value.'</option>';
+            $_selected = '';
+        }
+        $this->_tpl->assign('color',$_html);
+    }
+
+    //attr
+    private function attr($_attr) {
+        $_attrArr = array('头条','推荐','加粗','跳转');
+        $_attrS = explode(',',$_attr);
+        $_attrNo = array_diff($_attrArr,$_attrS);
+        if ($_attrS[0] != '无') {
+            foreach ($_attrS as $_value) {
+                $_html .= '<input type="checkbox" checked="checked" name="attr[]" value="'.$_value.'" />'.$_value;
+            }
+        }
+        foreach ($_attrNo as $_value) {
+            $_html .= '<input type="checkbox" name="attr[]" value="'.$_value.'" />'.$_value;
+        }
+        $this->_tpl->assign('attr',$_html);
+    }
+
+
+    private function update() {
+       if(isset($_GET['id'])) {
+           $this->_tpl->assign('update',true);
+           $this->_tpl->assign('title','修改文档');
+           $this->_model->id = $_GET['id'];
+           $_content = $this->_model->getOneContent();
+           if($_content) {
+               $this->_tpl->assign('titlec',$_content->title);
+               $this->_tpl->assign('tag',$_content->tag);
+               $this->_tpl->assign('keyword',$_content->keyword);
+               $this->_tpl->assign('thumbnail',$_content->thumbnail);
+               $this->_tpl->assign('source',$_content->source);
+               $this->_tpl->assign('author',$_content->author);
+               $this->_tpl->assign('content',$_content->content);
+               $this->_tpl->assign('info',$_content->info);
+               $this->_tpl->assign('count',$_content->count);
+               $this->_tpl->assign('gold',$_content->gold);
+               $this->nav($_content->nav);
+               $this->attr($_content->attr);
+               $this->color($_content->color);
+               $this->sort($_content->sort);
+               $this->readlimit($_content->readlimit);
+               $this->commend($_content->commend);
+           }else{
+               Tool::alertBack('警告：不存在此文档!');
+           }
+       }else{
+           Tool::alertBack('警告：非法操作!');
+       }
+    }
+
+    private function nav($_n = 0) {
         $_nav = new NavModel();
         foreach ($_nav->getALLFrontNav() as $_object) {
             $_html.='<optgroup label="'.$_object->nav_name.'">'."\r\t";
             $_nav->id = $_object->id;
             if(!!$_childnav = $_nav->getALLChildFrontNav()) {
                 foreach($_childnav as $_object) {
-                    $_html.='<option value="'.$_object->id.'">'.$_object->nav_name.'</option>'."\r\t";
+                    if($_n == $_object->id) {
+                    $_html.='<option selected="selected" value="'.$_object->id.'">'.$_object->nav_name.'</option>'."\r\t";
+                }else{
+                        $_html.='<option value="'.$_object->id.'">'.$_object->nav_name.'</option>'."\r\t";
+
+                    }
                 }
             }
             $_html.='</optgroup>';
