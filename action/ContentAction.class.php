@@ -27,7 +27,22 @@ class ContentAction extends Action {
     }
 
     private function show() {
-
+        $this->_tpl->assign('show',true);
+        $this->_tpl->assign('title','文档列表');
+        $this->nav();
+        $_nav = new NavModel();
+        if(empty($_GET['nav'])) {
+            $id = $_nav->getAllNavChildId();
+            $this->_model->nav = Tool::objArrofStr($id,'id');
+        }else{
+            $_nav->id = $_GET['nav'];
+            if(!$_nav->getOneNav()) Tool::alertBack('警告：类别参数传输错误!');
+            $this->_model->nav=$_nav->id;
+        }
+        parent::page($this->_model->getListContentTotal());
+        $_object = $this->_model->getListContent();
+        $_object = Tool::subStr($_object,'title',20,'utf-8');
+        $this->_tpl->assign('searchContent',$_object);
     }
 
     private function add() {
@@ -67,6 +82,19 @@ class ContentAction extends Action {
         }
         $this->_tpl->assign('add',true);
         $this->_tpl->assign('title','新增文档');
+        $this->nav();
+        $this->_tpl->assign('author',$_SESSION['admin']['admin_user']);
+    }
+
+    private function delete() {
+
+    }
+
+    private function update() {
+
+    }
+
+    private function nav() {
         $_nav = new NavModel();
         foreach ($_nav->getALLFrontNav() as $_object) {
             $_html.='<optgroup label="'.$_object->nav_name.'">'."\r\t";
@@ -81,11 +109,4 @@ class ContentAction extends Action {
         $this->_tpl->assign('nav',$_html);
     }
 
-    private function delete() {
-
-    }
-
-    private function update() {
-
-    }
 }

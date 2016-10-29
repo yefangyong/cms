@@ -18,7 +18,27 @@
             return $this->$_key;
         }
 
+        public function getAllNavChildId() {
+            $_sql = "SELECT
+                           id
+                      FROM
+                           cms_nav
+                     WHERE
+                          pid<>0";
+            return parent::all($_sql);
+        }
 
+
+        //获取主类的字类的id
+        public function getNavChildId() {
+            $_sql ="SELECT
+                           id
+                      FROM
+                           cms_nav
+                    WHERE
+                           pid='$this->id'";
+            return parent::all($_sql);
+        }
 
         //导航排序
         public function setNavSort() {

@@ -14,12 +14,13 @@ class ListAction extends Action {
     public function getListContent() {
         if(isset($_GET['id'])) {
             parent::__construct($this->_tpl,new ContentModel());
-            $this->_model->id = $_GET['id'];
-            $_navId = $this->_model->getNavChildId();
+            $nav = new NavModel();
+            $nav->id = $_GET['id'];
+            $_navId = $nav->getNavChildId();
             if($_navId) {
                 $this->_model->nav = Tool::objArrofStr($_navId,'id');
             }else{
-                $this->_model->nav = $_GET['id'];
+                $this->_model->nav = $nav->id;
             }
             parent::page($this->_model->getListContentTotal(),ARTICLE_SIZE);
             $_object = $this->_model->getListContent();

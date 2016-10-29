@@ -29,16 +29,6 @@
             return $this->$_key;
         }
 
-        //获取主类的字类的id
-        public function getNavChildId() {
-            $_sql ="SELECT
-                           id
-                      FROM
-                           cms_nav
-                    WHERE
-                           pid='$this->id'";
-            return parent::all($_sql);
-        }
 
         //获取文档总记录
         public function getListContentTotal() {
@@ -75,11 +65,14 @@
         }
 
 
-        //获取文档列表
+        //获取文档列表内容
         public function getListContent() {
             $_sql = "SELECT
-                            c.title,
                             c.id,
+                            c.title,
+                            c.nav,
+                            c.attr,
+                            c.title t,
                             c.info,
                             c.thumbnail,
                             c.date,
@@ -93,8 +86,9 @@
                            c.nav=n.id
                       AND
                             c.nav IN ($this->nav)
-                            $this->limit;
-                            ";
+                 ORDER BY
+                             c.date DESC
+                                $this->limit";
             return parent::all($_sql);
         }
 

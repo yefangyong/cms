@@ -19,6 +19,38 @@
     <li><a href="content.php?action=update">修改管理员</a></li>
     {/if}
 </ol>
+
+{if $show}
+<table cellspacing="0">
+    <tr><th>编号</th><th>标题</th><th>属性</th><th>文档类别</th><th>浏览次数</th><th>发布时间</th><th>操作</th></tr>
+    {if $searchContent}
+        {foreach $searchContent(key,value)}
+            <tr>
+                <td><script type="text/javascript">document.write({@key+1}+{$num});</script></td>
+                <td><a href="../details.php?id={@value->id}" target="_blank">{@value->title}</a></td>
+                <td>{@value->attr}</td>
+                <td><a href="?action=show&nav={@value->nav}">{@value->nav_name}</a></td>
+                <td>{@value->count}</td>
+                <td>{@value->date}</td>
+                <td><a href="manage.php?action=update&id={@value->id}">修改</a> | <a href="manage.php?action=delete&id={@value->id}" onclick="return confirm('你真的要删除这个管理员吗？') ? true : false">删除</a></td>
+            </tr>
+        {/foreach}
+    {else}
+        <tr><td colspan="7">对不起，没有任何数据</td></tr>
+    {/if}
+</table>
+    <form action="?" method="get">
+        <div id="page">
+            {$page}
+            <input type="hidden" name="action" value="show"/>
+            <select name="nav" class="select">
+                <option value="0">默认全部</option>
+                {$nav}
+            </select>
+            <input value="查询" type="submit">
+        </div>
+    </form>
+{/if}
 {if $add}
     <form name="content" method="post" action="?action=add">
         <table cellspacing="0" class="content">
@@ -37,7 +69,7 @@
                     <img name="pic" style="display:none;" /> ( * 必须是jpg,gif,png，并且200k内)
                 </td></tr>
             <tr><td>文章来源：<input type="text" name="source" /> ( * 文章来源20位之内)</td></tr>
-            <tr><td>作　　者：<input type="text" name="author" />  ( * 作者10位之内)
+            <tr><td>作　　者：<input type="text" name="author" value="{$author}" />  ( * 作者10位之内)
                 </td></tr>
             <tr><td><span class="middle">摘要内容：</span><textarea name="info"></textarea> ( * 内容摘要200之内)</td></tr>
             <tr><td><textarea style="width: 100%;" name="area"></textarea></td></tr>
