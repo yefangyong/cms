@@ -11,13 +11,18 @@
 <?php $_tpl->create('header.tpl');?>
 <div id="list">
     <h2>当前位置 &gt; <?php echo $this->_vars['nav'];?></h2>
+    <?php if ($this->_vars['allListContent']) {?>
     <?php foreach ($this->_vars['allListContent'] as $key=>$value) { ?>
     <dl>
-        <dt><img src="<?php echo $value->thumbnail?>" alt=""/></dt>
-        <dd>[ <strong>军事动态</strong> ]<a href="###"><?php echo $value->title?></a></dd>
+        <dt><a href="details.php?id=<?php echo $value->id?>" target="_blank"><img src="<?php echo $value->thumbnail?>" alt=""/></a></dt>
+        <dd>[ <strong><?php echo $value->nav_name?></strong> ]<a href="details.php?id=<?php echo $value->id?>" target="_blank"><?php echo $value->title?></a></dd>
         <dd>日期：<?php echo $value->date?> 点击率：<?php echo $value->count?> 好评：0</dd>
         <dd><?php echo $value->info?></dd>
     </dl>
+    <?php } ?>
+        <div id="page"><?php echo $this->_vars['page'];?></div>
+    <?php } else { ?>
+    <p style="text-align: center;padding: 20px;">没有任何数据</p>
     <?php } ?>
 </div>
 <div id="sidebar">

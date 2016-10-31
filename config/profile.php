@@ -27,3 +27,5 @@ define('TPL_DIR',ROOT_PATH.'/templates/');
 define('TPL_C_DIR',ROOT_PATH.'/templates_c/');
 //缓存文件目录
 define('CACHE',ROOT_PATH.'/cache/');
+define('ADMIN_CACHE',false);         //后台缓存文件，不得开启，负责后台功能会出现异常
+define('FRONT_CACHE',false);         //前台缓存按钮，测试的时候关闭，运行的时候开启

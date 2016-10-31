@@ -30,7 +30,7 @@
                 <td><a href="?action=show&nav=<?php echo $value->nav?>"><?php echo $value->nav_name?></a></td>
                 <td><?php echo $value->count?></td>
                 <td><?php echo $value->date?></td>
-                <td><a href="content.php?action=update&id=<?php echo $value->id?>">修改</a> | <a href="update.php?action=delete&id=<?php echo $value->id?>" onclick="return confirm('你真的要删除这个管理员吗？') ? true : false">删除</a></td>
+                <td><a href="content.php?action=update&id=<?php echo $value->id?>">修改</a> | <a href="content.php?action=delete&id=<?php echo $value->id?>" onclick="return confirm('你真的要删除这篇文档吗？') ? true : false">删除</a></td>
             </tr>
         <?php } ?>
     <?php } else { ?>
@@ -60,7 +60,7 @@
                     <input type="checkbox" name="attr[]" value="加粗"/>加粗
                     <input type="checkbox" name="attr[]" value="跳转"/>跳转
                 </td></tr>
-            <tr><td>标　　签：<input type="text" name="tag" value="" /> ( * 每个标签用','隔开，总长30位之内)</td></tr>
+            <tr><td>标　　签：<input type="text" name="tag"/> ( * 每个标签用','隔开，总长30位之内)</td></tr>
             <tr><td>关 键 字：<input type="text" name="keyword" /> ( * 每个关键字用','隔开，总长30位之内) </td></tr>
             <tr><td>缩 略 图：<input type="text" name="thumbnail" class="text" readonly="readonly" />
                     <input type="button"  value="上传缩略图" onclick="centerWindow('../templates/upload.html','upfile','400','200')" />
@@ -76,7 +76,7 @@
             </script>
             <tr><td>评论选项：<input type="radio" name="commend" value="1" checked="checked" />允许评论
                     <input type="radio" name="commend" value="0" />禁止评论
-                    　　　　浏览次数：<input type="text" name="count" value="100" class="small" />
+                    　　　　浏览次数：<input type="text" name="count" class="small" />
                 </td></tr>
             <tr><td>文档排序：<select name="sort">
                         <option value="0">默认排序</option>
@@ -111,14 +111,13 @@
 
 <?php if ($this->_vars['update']) {?>
 <form name="content" method="post" action="?action=add">
+    <input type="hidden" name="id" value="<?php echo $this->_vars['id'];?>"/>
+    <input type="hidden" name="prev_url" value="<?php echo $this->_vars['prev_url'];?>"/>
     <table cellspacing="0" class="content">
         <tr><th><strong>发布一条新文档</strong></th></tr>
         <tr><td>文档标题：<input type="text" value="<?php echo $this->_vars['titlec'];?>" name="title" /><span class="red">[必填]</span> ( * 标题2-50字符之间) </td></tr>
         <tr><td>栏　　目：<select name="nav"><option value="">请选择一个栏目类别</option><?php echo $this->_vars['nav'];?></select></td></tr>
-        <tr><td>定义属性：<input type="checkbox" name="attr[]" value="头条"/>头条
-                <input type="checkbox" name="attr[]" value="推荐"/>推荐
-                <input type="checkbox" name="attr[]" value="加粗"/>加粗
-                <input type="checkbox" name="attr[]" value="跳转"/>跳转
+        <tr><td>定义属性：<?php echo $this->_vars['attr'];?>
             </td></tr>
         <tr><td>标　　签：<input type="text" name="tag" value="<?php echo $this->_vars['tag'];?>" /> ( * 每个标签用','隔开，总长30位之内)</td></tr>
         <tr><td>关 键 字：<input type="text" name="keyword" value="<?php echo $this->_vars['keyword'];?>" /> ( * 每个关键字用','隔开，总长30位之内) </td></tr>
@@ -134,9 +133,8 @@
         <script type="text/javascript">
             CKEDITOR.replace('area');
         </script>
-        <tr><td>评论选项：<input type="radio" name="commend" value="1" checked="checked" />允许评论
-                <input type="radio" name="commend" value="0" />禁止评论
-                　　　　浏览次数：<input type="text" name="count" value="100" class="small" />
+        <tr><td>评论选项：<?php echo $this->_vars['commend'];?>
+                　　　　浏览次数：<input type="text" name="count" value="<?php echo $this->_vars['count'];?>" class="small" />
             </td></tr>
         <tr><td>文档排序：<select name="sort">
                    <?php echo $this->_vars['sort'];?>

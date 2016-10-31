@@ -47,38 +47,7 @@ class ContentAction extends Action {
 
     private function add() {
         if($_POST['send']) {
-            if(Validate::checkNull($_POST['title'])) Tool::alertBack('警告：标题内容不得为空!');
-            if(Validate::checkLength($_POST['title'],2,'min')) Tool::alertBack('警告：标题长度不得小于两位!');
-            if(Validate::checkLength($_POST['title'],50,'max')) Tool::alertBack('警告：标题长度不得大于五十位!');
-            if(Validate::checkNull($_POST['nav'])) Tool::alertBack('警告：必须选择一个栏目!');
-            if(Validate::checkLength($_POST['tag'],30,'max')) Tool::alertBack('警告：标签内容不得大于三十位!');
-            if(Validate::checkLength($_POST['keyword'],30,'max')) Tool::alertBack('警告：关键字不得小于三十位!');
-            if (Validate::checkLength($_POST['source'],20,'max')) Tool::alertBack('警告：文章来源长度不得大于二十位！');
-            if (Validate::checkLength($_POST['author'],10,'max')) Tool::alertBack('警告：作者长度不得大于十位！');
-            if (Validate::checkLength($_POST['info'],200,'max')) Tool::alertBack('警告：内容摘要不得大于两百位！');
-            if (Validate::checkNull($_POST['area'])) Tool::alertBack('警告：详细内容不得为空！');
-            if (Validate::checkNum($_POST['count'])) Tool::alertBack('警告：浏览次数必须是数字！');
-            if (Validate::checkNum($_POST['gold'])) Tool::alertBack('警告：消费金币必须是数字！');
-            if(isset($_POST['attr'])) {
-                $this->_model->attr = implode(',',$_POST['attr']);
-            }else{
-                $this->_model->attr = '无属性值';
-            }
-            $this->_model->title = $_POST['title'];
-            $this->_model->nav = $_POST['nav'];
-            $this->_model->tag = $_POST['tag'];
-            $this->_model->info = $_POST['info'];
-            $this->_model->thumbnail = $_POST['thumbnail'];
-            $this->_model->author = $_POST['author'];
-            $this->_model->keyword = $_POST['keyword'];
-            $this->_model->source = $_POST['source'];
-            $this->_model->content = $_POST['area'];
-            $this->_model->commend = $_POST['commend'];
-            $this->_model->count = $_POST['count'];
-            $this->_model->gold = $_POST['gold'];
-            $this->_model->color = $_POST['color'];
-            $this->_model->sort = $_POST['sort'];
-            $this->_model->readlimit = $_POST['readlimit'];
+           $this->getPostContent();
             $this->_model->addContent()?Tool::alertLocation('文档发布成功！','?action=add'):Tool::alertBack('新增失败!');
 
         }
@@ -89,7 +58,12 @@ class ContentAction extends Action {
     }
 
     private function delete() {
-
+        if($_GET['id']) {
+            $this->_model->id = $_GET['id'];
+            $this->_model->deleteContent()?Tool::alertLocation('文档删除成功!',PREV_URL):Tool::alertBack('文档删除失败!');
+        }else{
+            Tool::alertBack('非法操作!');
+        }
     }
 
     //commend
@@ -125,6 +99,7 @@ class ContentAction extends Action {
         $this->_tpl->assign('readlimit',$_html);
     }
 
+
     //color
     private function color($_color) {
         $_colorArr = array(''=>'默认颜色','red'=>'红色','blue'=>'蓝色','orange'=>'橙色');
@@ -152,14 +127,19 @@ class ContentAction extends Action {
         $this->_tpl->assign('attr',$_html);
     }
 
-
     private function update() {
+        if(isset($_POST['send'])) {
+            $this->_model->id = $_POST['id'];
+            $this->getPostContent();
+            $this->_model->updateContentById() ? Tool::alertLocation('文档修改成功!',$_POST['prev_url']):Tool::alertBack('文档修改失败!');
+        }
        if(isset($_GET['id'])) {
            $this->_tpl->assign('update',true);
            $this->_tpl->assign('title','修改文档');
            $this->_model->id = $_GET['id'];
            $_content = $this->_model->getOneContent();
            if($_content) {
+               $this->_tpl->assign('id',$this->_model->id);
                $this->_tpl->assign('titlec',$_content->title);
                $this->_tpl->assign('tag',$_content->tag);
                $this->_tpl->assign('keyword',$_content->keyword);
@@ -170,6 +150,7 @@ class ContentAction extends Action {
                $this->_tpl->assign('info',$_content->info);
                $this->_tpl->assign('count',$_content->count);
                $this->_tpl->assign('gold',$_content->gold);
+               $this->_tpl->assign('prev_url',PREV_URL);
                $this->nav($_content->nav);
                $this->attr($_content->attr);
                $this->color($_content->color);
@@ -182,6 +163,41 @@ class ContentAction extends Action {
        }else{
            Tool::alertBack('警告：非法操作!');
        }
+    }
+
+    private function getPostContent() {
+        if(Validate::checkNull($_POST['title'])) Tool::alertBack('警告：标题内容不得为空!');
+        if(Validate::checkLength($_POST['title'],2,'min')) Tool::alertBack('警告：标题长度不得小于两位!');
+        if(Validate::checkLength($_POST['title'],50,'max')) Tool::alertBack('警告：标题长度不得大于五十位!');
+        if(Validate::checkNull($_POST['nav'])) Tool::alertBack('警告：必须选择一个栏目!');
+        if(Validate::checkLength($_POST['tag'],30,'max')) Tool::alertBack('警告：标签内容不得大于三十位!');
+        if(Validate::checkLength($_POST['keyword'],30,'max')) Tool::alertBack('警告：关键字不得小于三十位!');
+        if (Validate::checkLength($_POST['source'],20,'max')) Tool::alertBack('警告：文章来源长度不得大于二十位！');
+        if (Validate::checkLength($_POST['author'],10,'max')) Tool::alertBack('警告：作者长度不得大于十位！');
+        if (Validate::checkLength($_POST['info'],200,'max')) Tool::alertBack('警告：内容摘要不得大于两百位！');
+        if (Validate::checkNull($_POST['area'])) Tool::alertBack('警告：详细内容不得为空！');
+        if (Validate::checkNum($_POST['count'])) Tool::alertBack('警告：浏览次数必须是数字！');
+        if (Validate::checkNum($_POST['gold'])) Tool::alertBack('警告：消费金币必须是数字！');
+        if(isset($_POST['attr'])) {
+            $this->_model->attr = implode(',',$_POST['attr']);
+        }else{
+            $this->_model->attr = '无属性值';
+        }
+        $this->_model->title = $_POST['title'];
+        $this->_model->nav = $_POST['nav'];
+        $this->_model->tag = $_POST['tag'];
+        $this->_model->info = $_POST['info'];
+        $this->_model->thumbnail = $_POST['thumbnail'];
+        $this->_model->author = $_POST['author'];
+        $this->_model->keyword = $_POST['keyword'];
+        $this->_model->source = $_POST['source'];
+        $this->_model->content = $_POST['area'];
+        $this->_model->commend = $_POST['commend'];
+        $this->_model->count = $_POST['count'];
+        $this->_model->gold = $_POST['gold'];
+        $this->_model->color = $_POST['color'];
+        $this->_model->sort = $_POST['sort'];
+        $this->_model->readlimit = $_POST['readlimit'];
     }
 
     private function nav($_n = 0) {

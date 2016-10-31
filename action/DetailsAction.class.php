@@ -14,19 +14,22 @@ class DetailsAction extends Action {
         if(isset($_GET['id'])) {
             parent::__construct($this->_tpl,new ContentModel());
             $this->_model->id = $_GET['id'];
+            if(!$this->_model->setContentCount()) Tool::alertBack('警告:不存在此文档!');
             $_content = $this->_model->getOneContent();
-            if($_content) {
-                $this->_tpl->assign('title',$_content->title);
-                $this->_tpl->assign('count',$_content->count);
-                $this->_tpl->assign('date',$_content->date);
-                $this->_tpl->assign('source',$_content->source);
-                $this->_tpl->assign('author',$_content->author);
-                $this->_tpl->assign('info',$_content->info);
-                $this->_tpl->assign('content',Tool::unHtml($_content->content));
-                $this->getNav($_content->nav);
+            $this->_tpl->assign('id',$this->_model->id);
+            $this->_tpl->assign('title',$_content->title);
+            $this->_tpl->assign('date',$_content->date);
+            $this->_tpl->assign('source',$_content->source);
+            $this->_tpl->assign('author',$_content->author);
+            $this->_tpl->assign('info',$_content->info);
+            $this->_tpl->assign('content',Tool::unHtml($_content->content));
+            $this->getNav($_content->nav);
+            if(FRONT_CACHE) {
+                $this->_tpl->assign('count','<script type="text/javascript">getContentCount();</script>');
             }else{
-                Tool::alertBack('警告：不存在此文档');
+                $this->_tpl->assign('count',$_content->count);
             }
+
         }
     }
 

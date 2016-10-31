@@ -34,6 +34,37 @@ class Templates {
 			exit('ERROR：请设置模板变量');
 		}
 	}
+
+    //cache()方法，跳转到缓存文件，不执行PHP了，不连接数据了
+	public function cache($_file) {
+        $_tpl = $this;
+        //设置模板的路径
+        $_tplFile = TPL_DIR.$_file;
+        //判断模板是否存在
+        if (!file_exists($_tplFile)) {
+            exit('ERROR：模板文件不存在！');
+        }
+        //是否加入参数
+        if(!empty($_SERVER['QUERY_STRING'])) {
+            $_file.=$_SERVER['QUERY_STRING'];
+        }
+        //编译文件
+        $_parFile = TPL_C_DIR.md5($_file).$_file.'.php';
+        //缓存文件
+        $_cacheFile = CACHE.md5($_file).$_file.'.html';
+        //当第二次运行相同文件的时候，直接载入缓存文件，避开编译
+        if (FRONT_CACHE) {
+            //缓存文件和编译文件都要存在
+            if (file_exists($_cacheFile) && file_exists($_parFile)) {
+                //判断模板文件是否修改过，判断编译文件是否修改过
+                if (filemtime($_parFile) >= filemtime($_tplFile) && filemtime($_cacheFile) >= filemtime($_parFile)) {
+                    //载入缓存文件
+                    include $_cacheFile;
+                    exit();
+                }
+            }
+        }
+	}
 	
 	//display()方法
 	public function display($_file) {
@@ -53,18 +84,6 @@ class Templates {
 		$_parFile = TPL_C_DIR.md5($_file).$_file.'.php';
 		//缓存文件
 		$_cacheFile = CACHE.md5($_file).$_file.'.html';
-		//当第二次运行相同文件的时候，直接载入缓存文件，避开编译
-		if (IS_CACHE) {
-			//缓存文件和编译文件都要存在
-			if (file_exists($_cacheFile) && file_exists($_parFile)) {
-				//判断模板文件是否修改过，判断编译文件是否修改过
-				if (filemtime($_parFile) >= filemtime($_tplFile) && filemtime($_cacheFile) >= filemtime($_parFile)) {
-					//载入缓存文件
-					include $_cacheFile;
-					return;
-				}
-			}
-		}
 		//当编译文件不存在，或者模板文件修改过，则生成编译文件
 		if (!file_exists($_parFile) || filemtime($_parFile) < filemtime($_tplFile)) {
 			//引入模板解析类
@@ -74,7 +93,7 @@ class Templates {
 		}
 		//载入编译文件
 		include $_parFile;
-		if (IS_CACHE) {
+		if (FRONT_CACHE) {
 			//获取缓冲区内的数据，并且创建缓存文件
 			file_put_contents($_cacheFile,ob_get_contents());
 			//清除缓冲区(清除了编译文件加载的内容)

@@ -31,6 +31,19 @@
             return $this->$_key;
         }
 
+        //累计文档的点击量
+        public function setContentCount() {
+            $_sql = "UPDATE
+											cms_content
+									SET
+											count=count+1
+							WHERE
+											id='$this->id'
+								LIMIT
+											1";
+            return parent::aud($_sql);
+        }
+
 
         //获取文档总记录
         public function getListContentTotal() {
@@ -45,6 +58,7 @@
                              c.nav IN($this->nav)";
             return parent::total($_sql);
         }
+
 
         //获取单条文档数据
         public function getOneContent() {
@@ -73,6 +87,45 @@
                            id='$this->id'
                            ";
             return parent::One($_sql);
+        }
+
+        public function updateContentById() {
+            $_sql = "UPDATE
+											cms_content
+								SET
+											title='$this->title',
+											nav='$this->nav',
+											info='$this->info',
+											thumbnail='$this->thumbnail',
+											source='$this->source',
+											author='$this->author',
+											tag='$this->tag',
+											keyword='$this->keyword',
+											attr='$this->attr',
+											content='$this->content',
+											commend='$this->commend',
+											count='$this->count',
+											gold='$this->gold',
+											color='$this->color',
+											sort='$this->sort',
+											readlimit='$this->readlimit'
+							WHERE
+											id='$this->id'
+								LIMIT
+											1";
+            return parent::aud($_sql);
+        }
+
+        public function deleteContent() {
+            $_sql = "DELETE
+
+                      FROM
+                             cms_content
+                      WHERE
+                            id='$this->id'
+                      LIMIT
+                            1";
+            return parent::aud($_sql);
         }
 
 
