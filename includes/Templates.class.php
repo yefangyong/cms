@@ -53,7 +53,7 @@ class Templates {
         //缓存文件
         $_cacheFile = CACHE.md5($_file).$_file.'.html';
         //当第二次运行相同文件的时候，直接载入缓存文件，避开编译
-        if (FRONT_CACHE) {
+        if (IS_CAHCE) {
             //缓存文件和编译文件都要存在
             if (file_exists($_cacheFile) && file_exists($_parFile)) {
                 //判断模板文件是否修改过，判断编译文件是否修改过
@@ -93,7 +93,7 @@ class Templates {
 		}
 		//载入编译文件
 		include $_parFile;
-		if (FRONT_CACHE) {
+		if (IS_CAHCE) {
 			//获取缓冲区内的数据，并且创建缓存文件
 			file_put_contents($_cacheFile,ob_get_contents());
 			//清除缓冲区(清除了编译文件加载的内容)

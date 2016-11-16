@@ -20,6 +20,8 @@ function __autoload($_classname) {
 }
 //实例化
 global $_tpl;
+//设置不缓存页面数组
+$_cache = new Cache(array('code','static','upload'));
 $_tpl = new Templates();
 //初始化数据
 require 'common.inc.php';

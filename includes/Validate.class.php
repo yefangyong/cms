@@ -37,6 +37,12 @@ class Validate {
         return false;
     }
 
+    //验证电子邮件
+    static public function checkEmail($_data) {
+        if (!preg_match('/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/',$_data)) return true;
+        return false;
+    }
+
     static function checkSession() {
         if(!isset($_SESSION['admin'])) Tool::alertBack('非法登录!');
     }

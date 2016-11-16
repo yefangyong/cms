@@ -1,12 +1,11 @@
 <?php
-//是否开启缓冲区，前台专用
-//判断是否开启缓冲区
-FRONT_CACHE ? ob_start() : null;
+//后台缓存开关
+define('IS_CAHCE',true);
 //模板句柄
-global $_tpl;
-if(FRONT_CACHE) {
+global $_tpl,$_cache;
+if(IS_CAHCE && !$_cache->noCache()) {
     ob_start();
-    $_tpl->cache(Tool::tplName());
+    $_tpl->cache(Tool::tplName().'.tpl');
 }
 $_nav = new NavAction($_tpl);
 $_nav->showFront()  //列出主导航

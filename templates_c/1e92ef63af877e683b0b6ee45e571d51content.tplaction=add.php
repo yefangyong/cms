@@ -110,7 +110,7 @@
 <?php } ?>
 
 <?php if ($this->_vars['update']) {?>
-<form name="content" method="post" action="?action=add">
+<form name="content" method="post" action="?action=update">
     <input type="hidden" name="id" value="<?php echo $this->_vars['id'];?>"/>
     <input type="hidden" name="prev_url" value="<?php echo $this->_vars['prev_url'];?>"/>
     <table cellspacing="0" class="content">
@@ -148,7 +148,7 @@
                     <?php echo $this->_vars['color'];?>
                 </select>
             </td></tr>
-        <tr><td><input type="submit" name="send" onclick="return checkAddContent();" value="发布文档" /> <input type="reset" value="重置" /></td></tr>
+        <tr><td><input type="submit" name="send" onclick="return checkAddContent();" value="修改文档" /> <input type="reset" value="重置" /></td></tr>
         <tr><td></td></tr>
 
 

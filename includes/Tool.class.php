@@ -55,7 +55,7 @@ class Tool {
     static public function tplName() {
         $_str = explode('/',$_SERVER["SCRIPT_NAME"]);
         $_str = explode('.',$_str[count($_str)-1]);
-        return $_str[0].'.tpl';
+        return $_str[0];
     }
 
     //将html字符转化成html标签

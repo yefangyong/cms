@@ -1,0 +1,44 @@
+#reg {
+    width:100%;
+    float: left;
+    margin:0 0 10px 0;
+}
+#reg h2 {
+    border:1px solid #ccc;
+    border-bottom:none;
+    text-align: center;
+}
+#reg h2 a{
+    text-decoration: none;
+    color: #360;
+}
+#reg h2 a:hover{
+    color: #f60;
+}
+#reg form{
+    border: 1px solid #ccc;
+    padding:15px 0;
+}
+#reg form dl{
+    padding-left:250px;
+}
+#reg form dl dd{
+    padding:5px 0;
+}
+#reg form dl dd span.red {
+    color:red;
+}
+#reg form dl dd input.text,#reg form dl dd select {
+    width:220px;
+    height:22px;
+    border:1px solid #999;
+    background:#eee;
+}
+#reg form dl dd img.code {
+    cursor:pointer;
+    margin:0 0 0 60px;
+}
+#reg form dl dd input.submit{
+    cursor:pointer;
+    margin:0 0 0 60px;
+}
