@@ -28,10 +28,15 @@ h2 {
     margin:0 0 10px 0;
     text-align:right;
 }
-#top a {
+#top a.adv {
     display:inline-block;
     padding:5px 10px 0 0;
     color:red;
+}
+#top a.user {
+    display:inline-block;
+    padding:5px 0 0;
+    color:blue;
 }
 #header {
     height:80px;

@@ -4,44 +4,61 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>CMS内容管理系统</title>
 <link rel="stylesheet" type="text/css" href="style/index.css" />
-    <link rel="stylesheet" type="text/css" href="style/basic.css" />
+<link rel="stylesheet" type="text/css" href="style/basic.css" />
+<script type="text/javascript" src="js/reg.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.min.js"></script>
+<script>
+    //ajax技术请求会员信息
+    $.ajax({
+        type : "GET",
+        url: "http://c.com/cms/config/static.php?type=index",
+        dataType : "json",
+        success: function(data){
+            // 如果数据请求成功
+            InfoData(data);
+        }
+    });
+
+    //将数据填充到html节点
+    var InfoData = function(data) {
+        if(data !=undefined) {
+            var $_member = '';
+            $_member += '<h2>会员信息</h2>';
+            $_member += '<div class="a">您好，<strong>'+data.user+'</strong> 欢迎光临</div>';
+            $_member += '<div class="b">';
+            $_member += '<img src="images/'+data.face+'" alt="'+data.user+'" />';
+            $_member += '<a href="###">个人中心</a>';
+            $_member += '<a href="###">我的评论</a>';
+            $_member += '<a href="register.php?action=logout">退出登录</a>';
+            $_member += '</div>';
+
+            $("#info").html($_member);
+        }else {
+            var $_member='';
+            $_member += '<h2>会员登录</h2>';
+            $_member += '<form method="post" name="login" action="register.php?action=login">';
+            $_member += '<label>用户名：<input type="text" name="user" class="text" /></label>';
+            $_member += '<label>密　码：<input type="pass" name="pass" class="text" /></label>';
+            $_member += '<label class="yzm">验证码：<input type="text" name="code" class="text code" /></label> <dd><img src="config/code.php" onclick=javascript:this.src="config/code.php?tm="+Math.random(); class="code" /></dd>';
+            $_member += '<p><input type="submit" name="send" onclick="return checkLog();" value="登录" class="submit" /> <a href="register.php?action=reg">注册会员</a> <a href="###">忘记密码?</a></p></form>';
+            $("#info").html($_member);
+        }
+    }
+</script>
 </head>
 <body>
 <?php $_tpl->create('header.tpl');?>
 <div id="user">
-	<h2>会员信息</h2>
-	<form>
-		<label>用户名：<input type="text" name="username" class="text" /></label>
-		<label>密　码：<input type="password" name="password" class="text" /></label>
-		<label>验证码：<input type="text" name="code" class="text code" /></label>
-		<img src="images/vdimgck.png" alt="验证码" />
-		<p><input type="submit" name="send" value="登录" class="submit" /> <a href="register.php?action=reg">注册会员</a> <a href="###">忘记密码?</a></p>
-	</form>
-	<h3>最近登录会员 <span>────────────</span></h3>
-	<dl>
-		<dt><img src="images/01.gif" alt="头像" /></dt>
-		<dd>樱桃小丸子</dd>
-	</dl>
-	<dl>
-		<dt><img src="images/04.gif" alt="头像" /></dt>
-		<dd>蜡笔小新</dd>
-	</dl>
-	<dl>
-		<dt><img src="images/12.gif" alt="头像" /></dt>
-		<dd>圣斗士星矢</dd>
-	</dl>
-	<dl>
-		<dt><img src="images/17.gif" alt="头像" /></dt>
-		<dd>黑崎一护</dd>
-	</dl>
-	<dl>
-		<dt><img src="images/22.gif" alt="头像" /></dt>
-		<dd>我叫MT</dd>
-	</dl>
-	<dl>
-		<dt><img src="images/14.gif" alt="头像" /></dt>
-		<dd>海贼王路飞</dd>
-	</dl>
+    <span id="info"></span>
+    <h3>最近登录会员 <span>────────────</span></h3>
+    <?php if ($this->_vars['AllLaterUser']) {?>
+        <?php foreach ($this->_vars['AllLaterUser'] as $key=>$value) { ?>
+            <dl>
+                <dt><img src="images/<?php echo $value->face?>" alt="<?php echo $value->user?>" /></dt>
+                <dd><?php echo $value->user?></dd>
+            </dl>
+        <?php } ?>
+    <?php } ?>
 </div>
 <div id="news">
 	<h3><a href="###">联合利华因散布涨价信息被罚</a></h3>

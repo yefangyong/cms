@@ -170,7 +170,7 @@ class ContentAction extends Action {
         if(Validate::checkLength($_POST['title'],2,'min')) Tool::alertBack('警告：标题长度不得小于两位!');
         if(Validate::checkLength($_POST['title'],50,'max')) Tool::alertBack('警告：标题长度不得大于五十位!');
         if(Validate::checkNull($_POST['nav'])) Tool::alertBack('警告：必须选择一个栏目!');
-        if(Validate::checkLength($_POST['tag'],30,'max')) Tool::alertBack('警告：标签内容不得大于三十位!');
+        if(Validate::checkLength($_POST['tags'],30,'max')) Tool::alertBack('警告：标签内容不得大于三十位!');
         if(Validate::checkLength($_POST['keyword'],30,'max')) Tool::alertBack('警告：关键字不得小于三十位!');
         if (Validate::checkLength($_POST['source'],20,'max')) Tool::alertBack('警告：文章来源长度不得大于二十位！');
         if (Validate::checkLength($_POST['author'],10,'max')) Tool::alertBack('警告：作者长度不得大于十位！');
@@ -185,7 +185,7 @@ class ContentAction extends Action {
         }
         $this->_model->title = $_POST['title'];
         $this->_model->nav = $_POST['nav'];
-        $this->_model->tag = $_POST['tag'];
+        $this->_model->tag = $_POST['tags'];
         $this->_model->info = $_POST['info'];
         $this->_model->thumbnail = $_POST['thumbnail'];
         $this->_model->author = $_POST['author'];

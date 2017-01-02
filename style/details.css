@@ -30,10 +30,61 @@
     padding:20px 10px;
     line-height:200%;
 }
+#details div.d4 {
+    padding:8px;
+    border:1px dashed #ccc;
+}
+#details div.d5 {
+    margin:10px 0;
+    padding:8px;
+    border:1px solid #ccc;
+}
+#details div.d5 p {
+    margin:10px 0;
+}
+#details div.d5 p.red{
+    color:red;
+}
+#details div.d5 p textarea {
+    width:650px;
+    height:150px;
+    background: #eee;
+    border:1px dashed #999;
+}
+#details div.d5 p input.text {
+    width:80px;
+    height:20px;
+    border:1px dashed #999;
+    background:#eee ;
+}
+#details div.d5 p input.submit {
+    width:80px;
+    height:25px;
+    cursor:pointer;
+}
+#details div.d5 p img.code {
+    width:78px;
+    height:30px;
+    position:relative;
+    top:10px;
+    cursor:pointer;
+}
 #details h3 {
     text-align: center;
     padding:20px;
     font-size:22px;
+}
+#details div.d6 {
+    margin:10px 0 0 0;
+}
+#details div.d6 h2 a{
+    float:right;
+    font-weight:normal;
+    padding-right:10px;
+    color:#666;
+}
+#details div.d6 h2 a span {
+    color:red;
 }
 #sidebar {
     width:260px;

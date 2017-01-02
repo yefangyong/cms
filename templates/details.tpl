@@ -15,6 +15,23 @@
     <div class="d1">时间：{$date} 来源：{$source} 作者：{$author} 点击量：{$count}</div>
     <div class="d2">{$info}</div>
     <div class="d3">{$content}</div>
+    <div class="d4">TAG标签：{$tag}</div>
+    <div class="d6"><h2><a href="feedback.php?id={$id}" target="_blank">已有<span>222</span>人评论</a> 最新评论</h2></div>
+    <div class="d5">
+        <form method="post" action="feedback.php?id={$id}" target="_blank">
+            <p>你对本文的态度：<input type="radio" name="manner" value="1" checked="checked"/>支持
+                              <input type="radio" name="manner" value="0"/>中立
+                              <input type="radio" name="manner" value="-1"/>反对
+            </p>
+            <p class="red">请遵守互联网规则，不要发表有关政治，色情，反动之类的评论</p>
+            <p><textarea name="content"></textarea></p>
+            <p>
+                验证码：<input type="text" class="text" name="code"/>
+                <img src="config/code.php" onclick="javascript:this.src='config/code.php?tm='+Math.random();" class="code" />
+                <input type="submit" class="submit" name="send" value="提交评论"/>
+            </p>
+        </form>
+    </div>
 
 </div>
 <div id="sidebar">

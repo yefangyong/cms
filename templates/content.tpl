@@ -119,7 +119,7 @@
         <tr><td>栏　　目：<select name="nav"><option value="">请选择一个栏目类别</option>{$nav}</select></td></tr>
         <tr><td>定义属性：{$attr}
             </td></tr>
-        <tr><td>标　　签：<input type="text" name="tag" value="{$tag}" /> ( * 每个标签用','隔开，总长30位之内)</td></tr>
+        <tr><td>标　　签：<input type="text" name="tags" value="{$tag}" class="text" /> ( * 每个标签用','隔开，总长30位之内)</td></tr>
         <tr><td>关 键 字：<input type="text" name="keyword" value="{$keyword}" /> ( * 每个关键字用','隔开，总长30位之内) </td></tr>
         <tr><td>缩 略 图：<input type="text" name="thumbnail" class="text" readonly="readonly" />
                 <input type="button"  value="上传缩略图" onclick="centerWindow('../templates/upload.html','upfile','400','200')" />

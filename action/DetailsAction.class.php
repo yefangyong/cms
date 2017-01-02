@@ -22,6 +22,7 @@ class DetailsAction extends Action {
             $this->_tpl->assign('source',$_content->source);
             $this->_tpl->assign('author',$_content->author);
             $this->_tpl->assign('info',$_content->info);
+            $this->_tpl->assign('tag',$_content->tag);
             $this->_tpl->assign('content',Tool::unHtml($_content->content));
             $this->getNav($_content->nav);
             if(FRONT_CACHE) {

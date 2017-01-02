@@ -1,7 +1,34 @@
+<script>
+
+	// ajax请求热门排行数据
+	$.ajax({
+		type : "GET",
+		url: "http://c.com/cms/config/static.php?type=header",
+		dataType : "json",
+		success: function(data){
+			// 如果数据请求成功
+				hotHtml(data.user);
+		}
+	});
+
+	//将数据填充到html节点
+	var hotHtml = function(data) {
+        if(data !=undefined) {
+		var html='';
+		html += '"'+data+'"，您好！ <a href=\"register.php?action=logout\">退出</a>';
+
+		$("#hothtml").html(html);
+	}else {
+            var html='';
+            html +='<a href="register.php?action=reg" class="user">注册</a> <a href="register.php?action=login" class="user">登录</a>';
+            $("#hothtml").html(html);
+        }
+    }
+</script>
 <div id="top">
-	{$title}
-	<a href="###">这里可以放置文字广告1</a>
-	<a href="###">这里可以放置文字广告2</a>
+	<span id="hothtml"></span>
+	<a href="###" class="adv">这里可以放置文字广告1</a>
+	<a href="###" class="adv">这里可以放置文字广告2</a>
 </div>
 <div id="header">
 	<h1><a href="###">瓢城Web俱乐部</a></h1>

@@ -24,9 +24,51 @@ class Cache {
             case 'list' :
                 $this->listc();
                 break;
+            case 'header':
+                $this->header();
+                break;
+            case 'index':
+                $this->index();
         }
     }
 
+    public function index() {
+        $_cookie = new Cookie('user');
+        $user = $_cookie->getCookie();
+        $_cookie = new Cookie('face');
+        $face =$_cookie->getCookie();
+        if($user && $face) {
+            $result = array(
+                'user'=>$user,
+                'face'=>$face,
+            );
+            echo json_encode($result);
+            exit;
+        }else {
+            $result ='';
+            echo json_decode($result);
+            exit;
+        }
+
+    }
+
+    //header
+    public function header() {
+        $_cookie = new Cookie('user');
+        $user =$_cookie->getCookie();
+        if ($user) {
+            $result = array(
+                'user'=>$user,
+            );
+            echo (json_encode($result));
+            exit;
+        } else {
+            $result = '';
+            echo  json_encode($result);
+            exit;
+        }
+
+    }
     //details
     public function details() {
         $_content = new ContentModel();

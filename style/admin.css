@@ -103,6 +103,18 @@ ul,ol{
 #main table.left {
     text-align: left;
 }
+#main table.user {
+    text-align: left;
+}
+#main table.user tr td select {
+    width:220px;
+    height:22px;
+    border:1px solid #ccc;
+    background: #fff;
+}
+#main table.user tr td img.face {
+    margin:0 0 0 60px;
+}
 #main table tr {
     background: #fff;
 }

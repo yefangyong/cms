@@ -1,0 +1,72 @@
+#feedback {
+    width:690px;
+    float: left;
+    margin:0 0 10px 0;
+}
+#feedback h2 {
+    border:1px solid #ccc;
+    border-bottom:none;
+}
+#feedback h2 a{
+    text-decoration: none;
+    color: #360;
+}
+#feedback h2 a:hover{
+    color: #f60;
+}
+#feedback dl {
+    width:670px;
+    margin:10px 0;
+    float:left;
+    border-bottom:1px dashed #ccc;
+    margin-left:8px;
+}
+#feedback dl dt {
+    float:left;
+}
+#feedback dl dd {
+    float:right;
+    width:585px;
+    padding:0 0 10px 10px;
+}
+#feedback dl dd span {
+    color:#06f;
+}
+#feedback dl dd.info {
+    font-size:16px;
+    line-height:150%;
+}
+#feedback dl dd.bottom {
+    text-align:right;
+}
+#feedback dl dd em {
+    float:right;
+    font-style:normal;
+}
+#sidebar {
+    width:260px;
+    float: right;
+    border:1px solid #ccc;
+    margin: 0 0 10px 0;
+}
+#sidebar ul {
+    padding:2px 10px 0 10px;
+}
+#sidebar ul li {
+    height:23px;
+    line-height:23px;
+    background:url(../images/pointer.png) no-repeat left center;
+    padding:0 0 0 10px;
+}
+#sidebar  ul li em {
+    float:right;
+    font-style:normal;
+    font-family:Tahoma;
+}
+#sidebar  ul li a {
+    color:#666;
+    text-decoration:none;
+}
+#sidebar ul li a:hover {
+    text-decoration:underline;
+}
